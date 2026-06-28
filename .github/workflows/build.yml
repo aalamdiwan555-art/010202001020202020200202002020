@@ -19,6 +19,7 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
+        cache: gradle
 
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
@@ -29,31 +30,16 @@ jobs:
         curl -L -o app/libs/opencv-4.9.0.aar "https://repo1.maven.org/maven2/org/opencv/opencv/4.9.0/opencv-4.9.0.aar"
         ls -la app/libs/
 
-    - name: Setup Gradle Wrapper
-      run: |
-        # Generate proper gradle wrapper
-        mkdir -p gradle/wrapper
-        curl -L -o gradle/wrapper/gradle-wrapper.jar "https://raw.githubusercontent.com/gradle/gradle/v8.2.0/gradle/wrapper/gradle-wrapper.jar"
-        ls -la gradle/wrapper/
-
-    - name: Make gradlew executable
-      run: chmod +x ./gradlew
-
-    - name: Cache Gradle packages
-      uses: actions/cache@v4
+    - name: Setup Gradle
+      uses: gradle/gradle-build-action@v3
       with:
-        path: |
-          ~/.gradle/caches
-          ~/.gradle/wrapper
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-        restore-keys: |
-          ${{ runner.os }}-gradle-
+        gradle-version: 8.2
 
     - name: Build Debug APK
-      run: ./gradlew assembleDebug --stacktrace
+      run: gradle assembleDebug --stacktrace
 
     - name: Build Release APK
-      run: ./gradlew assembleRelease --stacktrace
+      run: gradle assembleRelease --stacktrace
 
     - name: Upload Debug APK
       uses: actions/upload-artifact@v4
