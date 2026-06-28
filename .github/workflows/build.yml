@@ -27,17 +27,10 @@ jobs:
       run: |
         sdkmanager --install "platforms;android-34" "build-tools;34.0.0" "platform-tools"
 
-    - name: Download Gradle Wrapper
-      run: |
-        mkdir -p gradle/wrapper
-        curl -L -o gradle/wrapper/gradle-wrapper.jar "https://raw.githubusercontent.com/gradle/gradle/v8.5.0/gradle/wrapper/gradle-wrapper.jar"
-        ls -la gradle/wrapper/
-
-    - name: Download OpenCV AAR
-      run: |
-        mkdir -p app/libs
-        curl -L -o app/libs/opencv-4.9.0.aar "https://repo1.maven.org/maven2/org/opencv/opencv/4.9.0/opencv-4.9.0.aar" || echo "OpenCV AAR download failed, continuing..."
-        ls -la app/libs/
+    - name: Setup Gradle 8.4
+      uses: gradle/actions/setup-gradle@v3
+      with:
+        gradle-version: 8.4
 
     - name: Make gradlew executable
       run: chmod +x gradlew
@@ -53,16 +46,12 @@ jobs:
           ${{ runner.os }}-gradle-
 
     - name: Build Debug APK
-      run: |
-        export GRADLE_USER_HOME=$HOME/.gradle
-        ./gradlew assembleDebug --stacktrace --no-daemon
+      run: ./gradlew clean assembleDebug --no-daemon --stacktrace
       env:
         ANDROID_SDK_ROOT: ${{ env.ANDROID_SDK_ROOT }}
 
     - name: Build Release APK
-      run: |
-        export GRADLE_USER_HOME=$HOME/.gradle
-        ./gradlew assembleRelease --stacktrace --no-daemon
+      run: ./gradlew clean assembleRelease --no-daemon --stacktrace
       env:
         ANDROID_SDK_ROOT: ${{ env.ANDROID_SDK_ROOT }}
 
