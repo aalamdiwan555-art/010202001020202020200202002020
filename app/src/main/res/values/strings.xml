@@ -1,16 +1,12 @@
 <resources>
     <string name="app_name">System UI Diagnostics</string>
     <string name="accessibility_service_description">System UI Diagnostics accessibility service for screen reading and touch latency testing</string>
-
-    <!-- UI Labels -->
     <string name="overlay_permission_required">Overlay permission is required for floating window</string>
     <string name="accessibility_required">Accessibility permission is required for auto-click functionality</string>
     <string name="idle">Idle</string>
     <string name="scanning">Scanning</string>
     <string name="template_set">Template Set</string>
     <string name="status">Status</string>
-
-    <!-- Main Activity Labels -->
     <string name="engine_activation">Engine Activation</string>
     <string name="diagnostics_config">Diagnostics Configuration</string>
     <string name="price_range">Price Range</string>
