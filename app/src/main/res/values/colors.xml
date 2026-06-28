@@ -23,15 +23,9 @@
     <color name="switch_track_active">#FFBB86FC</color>
     <color name="switch_track_inactive">#FF404040</color>
 
-    <!-- Status colors -->
-    <color name="success_green">#FF4CAF50</color>
-    <color name="error_red">#FFE53935</color>
-    <color name="warning_yellow">#FFFFC107</color>
-    <color name="status_active">#FF4CAF50</color>
-    <color name="status_idle">#FF9E9E9E</color>
-    <color name="status_scanning">#FF2196F3</color>
-
     <!-- Button colors -->
+    <color name="button_template_bg">#FF1E1E1E</color>
+    <color name="button_template_stroke">#FF6200EE</color>
     <color name="button_primary">#FF6200EE</color>
     <color name="button_primary_pressed">#FF3700B3</color>
     <color name="button_secondary">#FF03DAC5</color>
@@ -41,6 +35,12 @@
     <color name="card_background">#FF1E1E1E</color>
     <color name="card_stroke">#FF404040</color>
     <color name="card_elevation">#FF000000</color>
+    <color name="surface_elevated">#FF2D2D2D</color>
+
+    <!-- Input colors -->
+    <color name="input_background">#FF1E1E1E</color>
+    <color name="input_stroke">#FF404040</color>
+    <color name="input_stroke_focused">#FF6200EE</color>
 
     <!-- Divider -->
     <color name="divider">#FF404040</color>
@@ -48,4 +48,12 @@
     <!-- Overlay -->
     <color name="overlay_background">#CC000000</color>
     <color name="overlay_border">#FF6200EE</color>
+
+    <!-- Status colors -->
+    <color name="success_green">#FF4CAF50</color>
+    <color name="error_red">#FFE53935</color>
+    <color name="warning_yellow">#FFFFC107</color>
+    <color name="status_active">#FF4CAF50</color>
+    <color name="status_idle">#FF9E9E9E</color>
+    <color name="status_scanning">#FF2196F3</color>
 </resources>
