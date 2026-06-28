@@ -59,9 +59,8 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
     implementation("androidx.activity:activity-ktx:1.8.2")
 
-    // OpenCV Android SDK - Using official Maven Central release (4.9.0+)
-    // Note: For 4.5.1, use manual AAR inclusion if needed
-    implementation("org.opencv:opencv:4.9.0")
+    // OpenCV - use local AAR file (downloaded during CI build)
+    implementation(files("libs/opencv-4.9.0.aar"))
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
