@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">System UI Diagnostics</string>
+    <string name="accessibility_service_description">System UI Diagnostics provides localized workflow diagnostics, screen-reading calibration, and touch-latency testing utilities for authorized diagnostic workflows.</string>
+    <string name="engine_activation">Engine Activation</string>
+    <string name="min_price">Min Price (₹)</string>
+    <string name="max_price">Max Price (₹)</string>
+    <string name="min_distance">Min Distance (km)</string>
+    <string name="max_distance">Max Distance (km)</string>
+    <string name="set_template">Set Rapido Accept Template</string>
+    <string name="template_set">Template Set</string>
+    <string name="template_not_set">No Template Selected</string>
+    <string name="save_settings">Save Settings</string>
+    <string name="settings_saved">Settings saved successfully</string>
+    <string name="overlay_active">Overlay Active</string>
+    <string name="overlay_inactive">Overlay Inactive</string>
+    <string name="accessibility_required">Please enable System UI Diagnostics in Accessibility Settings</string>
+    <string name="overlay_permission_required">Overlay permission is required for diagnostic overlay</string>
+    <string name="service_running">Diagnostic engine is running</string>
+    <string name="service_stopped">Diagnostic engine stopped</string>
+    <string name="price_range">Price Range</string>
+    <string name="distance_range">Distance Range</string>
+    <string name="template_config">Template Configuration</string>
+    <string name="diagnostics_config">Diagnostics Configuration</string>
+    <string name="status">Status</string>
+    <string name="idle">Idle</string>
+    <string name="scanning">Scanning</string>
+    <string name="match_found">Match Found</string>
+    <string name="gesture_dispatched">Gesture Dispatched</string>
+    <string name="error">Error</string>
+    <string name="channel_name">Diagnostics Service</string>
+    <string name="channel_description">Foreground notification for diagnostic engine</string>
+    <string name="notification_title">System UI Diagnostics</string>
+    <string name="notification_text">Diagnostic overlay is active</string>
+</resources>
