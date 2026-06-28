@@ -20,18 +20,28 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
+    # Setup Android SDK with required components
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
 
+    # Install required SDK components
+    - name: Install Android SDK Components
+      run: |
+        sdkmanager --install "platforms;android-34" "build-tools;34.0.0" "platform-tools" "cmdline-tools;latest"
+        sdkmanager --list_installed | grep -E "platforms|build-tools"
+
+    # Download Gradle Wrapper JAR (fixes "Wrapper jar not found" error)
     - name: Download Gradle Wrapper
       run: |
         mkdir -p gradle/wrapper
-        curl -L -o gradle/wrapper/gradle-wrapper.jar "https://raw.githubusercontent.com/gradle/gradle/v8.2.0/gradle/wrapper/gradle-wrapper.jar"
+        curl -L -o gradle/wrapper/gradle-wrapper.jar "https://raw.githubusercontent.com/gradle/gradle/v8.5.0/gradle/wrapper/gradle-wrapper.jar"
         ls -la gradle/wrapper/
 
+    # Make gradlew executable
     - name: Make gradlew executable
       run: chmod +x gradlew
 
+    # Cache Gradle packages for faster builds
     - name: Cache Gradle packages
       uses: actions/cache@v4
       with:
@@ -42,24 +52,40 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-gradle-
 
+    # Grant execute permission and validate Gradle wrapper
+    - name: Validate Gradle Wrapper
+      run: |
+        ./gradlew --version
+
+    # Build Debug APK with full stacktrace
     - name: Build Debug APK
-      run: ./gradlew assembleDebug --stacktrace
+      run: ./gradlew assembleDebug --stacktrace --info
+      env:
+        ANDROID_SDK_ROOT: ${{ env.ANDROID_SDK_ROOT }}
 
+    # Build Release APK
     - name: Build Release APK
-      run: ./gradlew assembleRelease --stacktrace
+      run: ./gradlew assembleRelease --stacktrace --info
+      env:
+        ANDROID_SDK_ROOT: ${{ env.ANDROID_SDK_ROOT }}
 
+    # Upload Debug APK as artifact
     - name: Upload Debug APK
       uses: actions/upload-artifact@v4
       with:
         name: debug-apk
         path: app/build/outputs/apk/debug/*.apk
+        if-no-files-found: warn
 
+    # Upload Release APK as artifact
     - name: Upload Release APK
       uses: actions/upload-artifact@v4
       with:
         name: release-apk
         path: app/build/outputs/apk/release/*.apk
+        if-no-files-found: warn
 
+    # Create GitHub Release with APKs (only on main branch push)
     - name: Create Release
       if: github.event_name == 'push' && github.ref == 'refs/heads/main'
       uses: softprops/action-gh-release@v2
