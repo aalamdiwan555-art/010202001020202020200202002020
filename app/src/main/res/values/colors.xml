@@ -8,7 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <!-- Missing colors from app code -->
+    <!-- App theme colors -->
     <color name="primary_accent">#FF6200EE</color>
     <color name="primary_accent_dark">#FF3700B3</color>
     <color name="background_dark">#FF121212</color>
@@ -17,10 +17,35 @@
     <color name="text_secondary">#FFB0B0B0</color>
     <color name="text_hint">#FF808080</color>
 
+    <!-- Switch colors -->
+    <color name="switch_thumb_active">#FF6200EE</color>
+    <color name="switch_thumb_inactive">#FF808080</color>
+    <color name="switch_track_active">#FFBB86FC</color>
+    <color name="switch_track_inactive">#FF404040</color>
+
+    <!-- Status colors -->
     <color name="success_green">#FF4CAF50</color>
     <color name="error_red">#FFE53935</color>
     <color name="warning_yellow">#FFFFC107</color>
     <color name="status_active">#FF4CAF50</color>
     <color name="status_idle">#FF9E9E9E</color>
     <color name="status_scanning">#FF2196F3</color>
+
+    <!-- Button colors -->
+    <color name="button_primary">#FF6200EE</color>
+    <color name="button_primary_pressed">#FF3700B3</color>
+    <color name="button_secondary">#FF03DAC5</color>
+    <color name="button_disabled">#FF808080</color>
+
+    <!-- Card colors -->
+    <color name="card_background">#FF1E1E1E</color>
+    <color name="card_stroke">#FF404040</color>
+    <color name="card_elevation">#FF000000</color>
+
+    <!-- Divider -->
+    <color name="divider">#FF404040</color>
+
+    <!-- Overlay -->
+    <color name="overlay_background">#CC000000</color>
+    <color name="overlay_border">#FF6200EE</color>
 </resources>
