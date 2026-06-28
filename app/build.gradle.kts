@@ -22,8 +22,8 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = true
-            isShrinkResources = true
+            isMinifyEnabled = false
+            isShrinkResources = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -59,12 +59,9 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
     implementation("androidx.activity:activity-ktx:1.8.2")
 
-    // OpenCV Android SDK - Official Maven Central AAR (since 4.9.0+)
-    // For 4.5.1 compatibility, we use the widely distributed community build
-    implementation("ai.eye2you:opencv-android:4.5.1")
-
-    // Alternatively, for newer OpenCV with official Maven support:
-    // implementation("org.opencv:opencv:4.9.0")
+    // OpenCV Android SDK - Using official Maven Central release (4.9.0+)
+    // Note: For 4.5.1, use manual AAR inclusion if needed
+    implementation("org.opencv:opencv:4.9.0")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
