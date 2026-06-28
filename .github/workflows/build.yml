@@ -3,6 +3,8 @@ name: Build APK
 on:
   push:
     branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
   workflow_dispatch:
 
 jobs:
@@ -23,13 +25,13 @@ jobs:
 
     - name: Install Android SDK Components
       run: |
-        yes | sdkmanager --licenses
-        sdkmanager --install "platforms;android-34" "build-tools;34.0.0"
+        sdkmanager --install "platforms;android-34" "build-tools;34.0.0" "platform-tools"
 
     - name: Download Gradle Wrapper
       run: |
         mkdir -p gradle/wrapper
         curl -L -o gradle/wrapper/gradle-wrapper.jar "https://raw.githubusercontent.com/gradle/gradle/v8.5.0/gradle/wrapper/gradle-wrapper.jar"
+        ls -la gradle/wrapper/
 
     - name: Make gradlew executable
       run: chmod +x gradlew
@@ -41,16 +43,41 @@ jobs:
           ~/.gradle/caches
           ~/.gradle/wrapper
         key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
 
-    # Build Debug Only - Logs ઓછા કરવા
     - name: Build Debug APK
-      run: ./gradlew assembleDebug --no-daemon --stacktrace
+      run: ./gradlew assembleDebug --stacktrace
+      env:
+        ANDROID_SDK_ROOT: ${{ env.ANDROID_SDK_ROOT }}
+
+    - name: Build Release APK
+      run: ./gradlew assembleRelease --stacktrace
       env:
         ANDROID_SDK_ROOT: ${{ env.ANDROID_SDK_ROOT }}
 
     - name: Upload Debug APK
       uses: actions/upload-artifact@v4
-      if: success()
+      if: always()
       with:
-        name: app-debug-v${{ github.run_number }}
+        name: debug-apk
         path: app/build/outputs/apk/debug/*.apk
+
+    - name: Upload Release APK
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: release-apk
+        path: app/build/outputs/apk/release/*.apk
+
+    - name: Create Release
+      if: github.event_name == 'push' && github.ref == 'refs/heads/main' && success()
+      uses: softprops/action-gh-release@v2
+      with:
+        files: |
+          app/build/outputs/apk/debug/*.apk
+          app/build/outputs/apk/release/*.apk
+        tag_name: v${{ github.run_number }}
+        name: Release v${{ github.run_number }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
