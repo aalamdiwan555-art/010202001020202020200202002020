@@ -7,6 +7,16 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Missing colors from app code -->
+    <color name="primary_accent">#FF6200EE</color>
+    <color name="primary_accent_dark">#FF3700B3</color>
+    <color name="background_dark">#FF121212</color>
+    <color name="surface_dark">#FF1E1E1E</color>
+    <color name="text_primary">#FFFFFFFF</color>
+    <color name="text_secondary">#FFB0B0B0</color>
+    <color name="text_hint">#FF808080</color>
+
     <color name="success_green">#FF4CAF50</color>
     <color name="error_red">#FFE53935</color>
     <color name="warning_yellow">#FFFFC107</color>
