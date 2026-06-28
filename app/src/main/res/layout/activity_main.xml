@@ -232,8 +232,8 @@
                 android:text="@string/set_template"
                 android:textColor="@color/primary_accent"
                 android:backgroundTint="@color/button_template_bg"
-                android:strokeColor="@color/button_template_stroke"
-                android:strokeWidth="2dp"
+                app:strokeColor="@color/button_template_stroke"
+                app:strokeWidth="2dp"
                 app:cornerRadius="8dp"
                 android:padding="12dp" />
         </LinearLayout>
