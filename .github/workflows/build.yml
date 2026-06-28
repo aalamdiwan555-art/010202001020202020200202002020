@@ -3,8 +3,6 @@ name: Build APK
 on:
   push:
     branches: [ main, master ]
-  pull_request:
-    branches: [ main, master ]
   workflow_dispatch:
 
 jobs:
@@ -20,80 +18,39 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    # Setup Android SDK
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
 
-    # Install required SDK components
     - name: Install Android SDK Components
       run: |
-        sdkmanager --install "platforms;android-34" "build-tools;34.0.0" "platform-tools"
-        sdkmanager --list_installed | grep -E "platforms|build-tools"
+        yes | sdkmanager --licenses
+        sdkmanager --install "platforms;android-34" "build-tools;34.0.0"
 
-    # Download Gradle Wrapper JAR (critical fix)
     - name: Download Gradle Wrapper
       run: |
         mkdir -p gradle/wrapper
         curl -L -o gradle/wrapper/gradle-wrapper.jar "https://raw.githubusercontent.com/gradle/gradle/v8.5.0/gradle/wrapper/gradle-wrapper.jar"
-        ls -la gradle/wrapper/
 
-    # Make gradlew executable
     - name: Make gradlew executable
       run: chmod +x gradlew
 
-    # Cache Gradle packages
-    - name: Cache Gradle packages
+    - name: Cache Gradle
       uses: actions/cache@v4
       with:
         path: |
           ~/.gradle/caches
           ~/.gradle/wrapper
         key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-        restore-keys: |
-          ${{ runner.os }}-gradle-
 
-    # Build Debug APK using wrapper (NOT system gradle)
+    # Build Debug Only - Logs ઓછા કરવા
     - name: Build Debug APK
-      run: ./gradlew assembleDebug --stacktrace --info
+      run: ./gradlew assembleDebug --no-daemon --stacktrace
       env:
         ANDROID_SDK_ROOT: ${{ env.ANDROID_SDK_ROOT }}
 
-    # Build Release APK using wrapper
-    - name: Build Release APK
-      run: ./gradlew assembleRelease --stacktrace --info
-      env:
-        ANDROID_SDK_ROOT: ${{ env.ANDROID_SDK_ROOT }}
-
-    # Upload Debug APK
     - name: Upload Debug APK
       uses: actions/upload-artifact@v4
-      if: always()
+      if: success()
       with:
-        name: debug-apk
+        name: app-debug-v${{ github.run_number }}
         path: app/build/outputs/apk/debug/*.apk
-        if-no-files-found: warn
-
-    # Upload Release APK
-    - name: Upload Release APK
-      uses: actions/upload-artifact@v4
-      if: always()
-      with:
-        name: release-apk
-        path: app/build/outputs/apk/release/*.apk
-        if-no-files-found: warn
-
-    # Create GitHub Release with APKs
-    - name: Create Release
-      if: github.event_name == 'push' && github.ref == 'refs/heads/main' && success()
-      uses: softprops/action-gh-release@v2
-      with:
-        files: |
-          app/build/outputs/apk/debug/*.apk
-          app/build/outputs/apk/release/*.apk
-        tag_name: v${{ github.run_number }}
-        name: Release v${{ github.run_number }}
-        draft: false
-        prerelease: false
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        
