@@ -23,33 +23,16 @@ jobs:
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
 
-    - name: Generate Gradle Wrapper
-      run: |
-        # Download and setup gradle wrapper if missing
-        if [ ! -f "gradle/wrapper/gradle-wrapper.jar" ]; then
-          mkdir -p gradle/wrapper
-          curl -L -o gradle/wrapper/gradle-wrapper.jar https://raw.githubusercontent.com/gradle/gradle/v8.2.0/gradle/wrapper/gradle-wrapper.jar
-        fi
-        chmod +x gradlew
-
-    - name: Cache Gradle packages
-      uses: actions/cache@v4
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@v4
       with:
-        path: |
-          ~/.gradle/caches
-          ~/.gradle/wrapper
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-        restore-keys: |
-          ${{ runner.os }}-gradle-
+        gradle-version: '8.2'
 
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
+    - name: Build Debug APK with Gradle
+      run: gradle assembleDebug --stacktrace
 
-    - name: Build Debug APK
-      run: ./gradlew assembleDebug --stacktrace
-
-    - name: Build Release APK
-      run: ./gradlew assembleRelease --stacktrace
+    - name: Build Release APK with Gradle
+      run: gradle assembleRelease --stacktrace
 
     - name: Upload Debug APK
       uses: actions/upload-artifact@v4
