@@ -23,23 +23,30 @@ jobs:
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
 
-    - name: Download OpenCV AAR
+    - name: Download Gradle Wrapper
       run: |
-        mkdir -p app/libs
-        curl -L -o app/libs/opencv-4.9.0.aar "https://repo1.maven.org/maven2/org/opencv/opencv/4.9.0/opencv-4.9.0.aar"
-        ls -la app/libs/
+        mkdir -p gradle/wrapper
+        curl -L -o gradle/wrapper/gradle-wrapper.jar "https://raw.githubusercontent.com/gradle/gradle/v8.2.0/gradle/wrapper/gradle-wrapper.jar"
+        ls -la gradle/wrapper/
 
-    - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@v4
+    - name: Make gradlew executable
+      run: chmod +x gradlew
+
+    - name: Cache Gradle packages
+      uses: actions/cache@v4
       with:
-        gradle-version: 8.2
-        cache-read-only: false
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
 
     - name: Build Debug APK
-      run: gradle assembleDebug --stacktrace
+      run: ./gradlew assembleDebug --stacktrace
 
     - name: Build Release APK
-      run: gradle assembleRelease --stacktrace
+      run: ./gradlew assembleRelease --stacktrace
 
     - name: Upload Debug APK
       uses: actions/upload-artifact@v4
