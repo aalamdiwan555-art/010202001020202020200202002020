@@ -63,8 +63,8 @@ dependencies {
     implementation("androidx.preference:preference-ktx:1.2.1")
     implementation("androidx.localbroadcastmanager:localbroadcastmanager:1.1.0")
 
-    // OpenCV Android SDK
-    implementation("org.opencv:opencv:4.9.0")
+    // OpenCV - downloaded as AAR in workflow
+    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.aar"))))
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
